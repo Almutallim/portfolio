@@ -1,0 +1,467 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sultane du Foyer — Planning & Carnet Interactif</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lato:wght@300;400;700&family=Amiri&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --creme:#FDF8F2;--ivoire:#FFFCF7;--rose:#D4A5A0;--rose-lt:#F0DDD9;--rose-dk:#B8857F;
+    --moka:#5C3D2E;--moka-lt:#8B6355;--gold:#C9A84C;--gold-lt:#E8D5A0;--sage:#8FA68C;
+    --blush:#F5E6E0;--brun:#3D2518;--danger:#9F4C45;--softgreen:#EEF4EA;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--creme);color:var(--brun);font-family:'Lato',sans-serif;font-weight:300;line-height:1.8;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(201,168,76,0.08) 1px,transparent 0);background-size:32px 32px;pointer-events:none;z-index:0;}header{position:relative;background:var(--brun);padding:4rem 2rem 3rem;text-align:center;overflow:hidden;z-index:1;} header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(201,168,76,0.15) 0%,transparent 70%);} header::after{content:'✿ ✾ ✿';position:absolute;top:1rem;left:50%;transform:translateX(-50%);font-size:0.8rem;color:rgba(201,168,76,0.3);letter-spacing:0.5rem;} .header-tag{font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:block;position:relative;} .header-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,4rem);font-weight:400;color:var(--ivoire);line-height:1.15;position:relative;margin-bottom:0.5rem;} .header-title em{font-style:italic;color:var(--gold-lt);} .header-script{font-family:'Dancing Script',cursive;font-size:clamp(1.2rem,3vw,2rem);color:var(--rose-lt);display:block;margin-top:0.3rem;position:relative;} .header-sub{font-size:0.72rem;color:rgba(253,248,242,0.4);letter-spacing:0.15em;position:relative;margin-top:1rem;} .header-divider{display:flex;align-items:center;justify-content:center;gap:1rem;margin:1.5rem auto 0;max-width:400px;position:relative;} .header-divider::before,.header-divider::after{content:'';flex:1;height:1px;background:rgba(201,168,76,0.3);} .header-divider span{color:var(--gold);font-size:0.7rem;letter-spacing:0.2em;}
+
+nav{background:var(--ivoire);border-bottom:1px solid var(--rose-lt);position:sticky;top:0;z-index:100;overflow-x:auto;} nav ul{display:flex;list-style:none;padding:0 1rem;min-width:max-content;} nav ul li a{display:block;padding:0.9rem 1.1rem;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--moka-lt);text-decoration:none;border-bottom:2px solid transparent;transition:all 0.2s;cursor:pointer;} nav ul li a.active,nav ul li a:hover{color:var(--gold);border-color:var(--gold);}
+
+.page{max-width:1120px;margin:0 auto;padding:3rem 2rem 6rem;position:relative;z-index:1;} .section{display:none;} .section.active{display:block;} .eyebrow{font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;display:block;} .h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:400;color:var(--brun);line-height:1.2;margin-bottom:0.4rem;} .h1 em,.h2 em{font-style:italic;color:var(--rose-dk);} .h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--brun);margin-bottom:0.4rem;margin-top:1rem;} .h3{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:500;color:var(--brun);margin-bottom:0.5rem;} .script{font-family:'Dancing Script',cursive;font-size:1.3rem;color:var(--rose-dk);} .lead{font-size:1rem;color:var(--moka);line-height:1.9;margin-bottom:2rem;} .bar{width:40px;height:1px;background:var(--gold);margin:0.8rem 0 1.5rem;} .vdiv{text-align:center;margin:2rem 0;color:var(--gold);font-size:0.8rem;letter-spacing:0.5rem;}
+
+.card{background:var(--ivoire);border:1px solid var(--rose-lt);padding:1.5rem;margin-bottom:1rem;} .card.gold{border-color:rgba(201,168,76,0.4);background:var(--blush);} .card.dark{background:var(--brun);border-color:var(--brun);color:var(--ivoire);} .card p{font-size:0.88rem;color:var(--moka);line-height:1.85;} .card.dark p{color:rgba(253,248,242,0.78);} .card ul{list-style:none;margin-top:0.5rem;} .card ul li{font-size:0.85rem;color:var(--moka);padding:0.35rem 0;border-bottom:1px solid rgba(212,165,160,0.15);display:flex;gap:0.6rem;line-height:1.65;} .card ul li::before{content:'✿';color:var(--gold);flex-shrink:0;font-size:0.55rem;margin-top:0.35rem;} .card.dark ul li{color:rgba(253,248,242,0.75);border-color:rgba(255,255,255,0.06);}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;} .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;} .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+
+.quote-block{background:var(--brun);padding:2rem 2.5rem;margin:1.5rem 0;position:relative;text-align:center;} .quote-block::before{content:'"';font-family:'Playfair Display',serif;font-size:6rem;color:rgba(201,168,76,0.15);position:absolute;top:-1.5rem;left:1.5rem;line-height:1;} .quote-block p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.12rem;color:var(--ivoire);line-height:1.7;position:relative;z-index:1;} .quote-block .source{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:0.8rem;display:block;} .arabic{font-family:'Amiri',serif;font-size:1.2rem;color:var(--gold);direction:rtl;display:block;text-align:center;margin-bottom:0.4rem;}
+
+.chapter{background:var(--ivoire);border-left:3px solid var(--rose);padding:1.2rem 1.5rem;margin-bottom:0.8rem;display:flex;gap:1rem;align-items:flex-start;} .ch-num{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--rose-lt);line-height:1;flex-shrink:0;width:2.2rem;} .ch-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--brun);margin-bottom:0.3rem;} .ch-body{font-size:0.82rem;color:var(--moka);line-height:1.7;}
+
+.table-wrap{overflow-x:auto;background:var(--ivoire);border:1px solid var(--rose-lt);margin-bottom:1rem;} table{width:100%;border-collapse:collapse;min-width:760px;} th,td{padding:0.75rem;border-bottom:1px solid rgba(212,165,160,0.18);font-size:0.78rem;text-align:left;color:var(--moka);vertical-align:top;} th{background:var(--blush);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--brun);font-weight:700;} td strong{color:var(--brun);}
+
+.pill{display:inline-block;padding:0.18rem 0.55rem;border-radius:999px;background:var(--blush);border:1px solid var(--rose-lt);color:var(--moka);font-size:0.65rem;} .danger-note{border-left:3px solid var(--danger);background:#FFF7F5;} .success-note{border-left:3px solid var(--sage);background:var(--softgreen);}
+
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem;margin:1rem 0;} .form-grid.two{grid-template-columns:repeat(2,1fr);} .form-grid.three{grid-template-columns:repeat(3,1fr);} label{font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--moka-lt);display:block;margin-bottom:0.25rem;} input,select,textarea{width:100%;padding:0.72rem;border:1px solid var(--rose-lt);background:var(--ivoire);font-family:'Lato',sans-serif;font-size:0.82rem;color:var(--brun);outline:none;} textarea{min-height:78px;resize:vertical;} input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,168,76,0.12);} button{border:none;background:var(--brun);color:var(--ivoire);padding:0.75rem 1rem;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:0.2s;font-family:'Lato',sans-serif;} button:hover{background:var(--moka);} button.secondary{background:var(--blush);color:var(--brun);border:1px solid var(--rose-lt);} button.danger{background:var(--danger);} .actions{display:flex;gap:0.6rem;flex-wrap:wrap;margin:1rem 0;} .mini-btn{padding:0.4rem 0.55rem;font-size:0.55rem;letter-spacing:0.1em;}
+
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin:1.5rem 0;} .summary-card{background:var(--ivoire);border:1px solid var(--rose-lt);padding:1rem;position:relative;overflow:hidden;} .summary-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rose),var(--gold));} .summary-card span{font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--moka-lt);} .summary-card strong{font-family:'Playfair Display',serif;font-size:1.25rem;display:block;color:var(--brun);margin-top:0.25rem;font-weight:400;}
+
+.checklist{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-top:1rem;} .check-item{background:var(--ivoire);border:1px solid var(--rose-lt);padding:0.65rem;display:flex;gap:0.45rem;align-items:center;font-size:0.78rem;color:var(--moka);} .check-item input{width:auto;}
+
+.tabs{display:flex;gap:0.4rem;flex-wrap:wrap;margin:1rem 0 1.5rem;} .tab-btn{background:var(--ivoire);border:1px solid var(--rose-lt);color:var(--moka);} .tab-btn.active{background:var(--brun);color:var(--ivoire);border-color:var(--brun);} .subtab{display:none;} .subtab.active{display:block;}
+
+.small{font-size:0.76rem;color:var(--moka-lt);line-height:1.6;}
+
+@media(max-width:900px){.g2,.g3,.g4,.summary-grid,.form-grid,.form-grid.two,.form-grid.three{grid-template-columns:1fr 1fr;}.checklist{grid-template-columns:1fr 1fr;}} @media(max-width:640px){.page{padding:2rem 1rem 4rem;}.g2,.g3,.g4,.summary-grid,.form-grid,.form-grid.two,.form-grid.three,.checklist{grid-template-columns:1fr;}header{padding:3rem 1rem 2rem;}button{width:100%;}.actions{flex-direction:column;} } </style>
+
+</head>
+<body><header>
+  <span class="header-tag">✦ Dossier Personnel — Usage Privé ✦</span>
+  <h1 class="header-title">Sultane du <em>Foyer</em></h1>
+  <span class="header-script">Planning, paix intérieure & registre de la maison</span>
+  <p class="header-sub">Routine · Gestion émotionnelle · Couple · Enfants · Argent · Accords</p>
+  <div class="header-divider"><span>✿ ✾ ✿</span></div>
+</header><nav>
+  <ul>
+    <li><a href="#" class="active" onclick="show('vision',this)">Vision</a></li>
+    <li><a href="#" onclick="show('securite',this)">Sécurité</a></li>
+    <li><a href="#" onclick="show('routine',this)">Routine</a></li>
+    <li><a href="#" onclick="show('planning30',this)">30 jours</a></li>
+    <li><a href="#" onclick="show('planning60',this)">2 mois</a></li>
+    <li><a href="#" onclick="show('conflits',this)">Scripts</a></li>
+    <li><a href="#" onclick="show('enfants',this)">Enfants</a></li>
+    <li><a href="#" onclick="show('bilan',this)">Bilan</a></li>
+    <li><a href="#" onclick="show('carnet',this)">Carnet du Foyer</a></li>
+  </ul>
+</nav><div class="page"><section class="section active" id="vision">
+  <span class="eyebrow">Section 01</span>
+  <div class="h1">Diagnostic doux — <em>reprendre ton centre</em></div>
+  <div class="bar"></div>
+  <p class="lead">Tu ne cherches pas seulement une maison propre ou un couple “qui va bien”. Tu cherches un foyer où ton cœur peut respirer, où tes enfants se sentent protégés, et où l’amour n’efface jamais les limites.</p>  <div class="quote-block">
+    <span class="arabic">وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</span>
+    <p>« Et Il a mis entre vous de l’affection et de la miséricorde. »</p>
+    <span class="source">Ar-Rum 21</span>
+  </div>  <div class="g2">
+    <div class="card gold">
+      <div class="h3">Ce que ton cœur peut vivre</div>
+      <ul>
+        <li>Une fatigue émotionnelle liée aux hauts et bas : douceur, puis froideur.</li>
+        <li>Une peur de l’après, de l’abandon, de l’échec ou de revivre des blessures passées.</li>
+        <li>Un besoin très fort de sécurité, de clarté, de respect et de constance.</li>
+        <li>Une envie sincère de construire un foyer islamique sans devenir invisible.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="h3">La direction du programme</div>
+      <ul>
+        <li>Apprécier les bons moments sans devenir dépendante d’eux.</li>
+        <li>Répondre avec calme, mais ne pas banaliser ce qui blesse.</li>
+        <li>Transformer la maison par petites routines, pas par perfectionnisme.</li>
+        <li>Faire de la foi un appui réel : salah, Qur’an, adhkar, du’a, patience active.</li>
+      </ul>
+    </div>
+  </div>  <div class="card danger-note">
+    <div class="h3">Rappel essentiel</div>
+    <p>La douceur ne signifie pas tout accepter. Le foyer peut être beau, féminin et apaisé tout en gardant une ligne rouge : pas d’insulte, pas d’humiliation, pas de tape sur les enfants, même légère. Une limite saine protège l’amour au lieu de le casser.</p>
+  </div>
+</section><section class="section" id="securite">
+  <span class="eyebrow">Section 02</span>
+  <div class="h1">Charte de sécurité — <em>la paix avec des limites</em></div>
+  <div class="bar"></div>  <div class="g3">
+    <div class="card"><div class="h3">Zéro insulte</div><p>On peut être blessé, énervé, fatigué. Mais on ne rabaisse pas l’autre. Les mots restent dans le cœur longtemps après la dispute.</p></div>
+    <div class="card"><div class="h3">Zéro humiliation</div><p>Pas de moquerie, pas de mépris, pas de menace, surtout devant les enfants. La dignité reste non négociable.</p></div>
+    <div class="card"><div class="h3">Zéro tape</div><p>Les enfants doivent associer la maison à la sécurité. Une correction ne doit jamais devenir peur, humiliation ou violence.</p></div>
+    <div class="card gold"><div class="h3">Pause obligatoire</div><p>Quand la voix monte : pause de 20 minutes. Chacun respire, prie, marche, boit de l’eau, puis on reparle.</p></div>
+    <div class="card gold"><div class="h3">Pas devant les enfants</div><p>Si les enfants sont là, la discussion attend. Leur cœur n’est pas un champ de bataille.</p></div>
+    <div class="card gold"><div class="h3">Retour au calme</div><p>Une dispute n’est pas finie quand on se tait. Elle est finie quand on peut reparler sans attaquer.</p></div>
+  </div>  <div class="quote-block">
+    <p>Mon foyer ne sera pas parfait, mais il doit devenir un endroit où chacun peut se sentir en sécurité.</p>
+    <span class="source">Phrase à répéter</span>
+  </div>
+</section><section class="section" id="routine">
+  <span class="eyebrow">Section 03</span>
+  <div class="h1">Routine quotidienne — <em>réaliste et douce</em></div>
+  <div class="bar"></div>  <div class="h2">Journée normale</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Moment</th><th>Action simple</th><th>Intention</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Matin</strong></td><td>Fajr, eau, adhkar, aérer 5 minutes, préparer enfants sans téléphone.</td><td>Commencer par Allah avant les émotions.</td></tr>
+        <tr><td><strong>Après-midi</strong></td><td>Une zone de rangement, repas simple, vérifier argent/courses si besoin.</td><td>Créer de la clarté au lieu de courir partout.</td></tr>
+        <tr><td><strong>Retour du mari</strong></td><td>Accueil calme, pas de sujet lourd dans les 20 premières minutes.</td><td>Ouvrir une porte douce, sans s’oublier.</td></tr>
+        <tr><td><strong>Soirée enfants</strong></td><td>Repas, devoirs, Qur’an/sourate courte, câlin ou parole individuelle.</td><td>Les enfants reçoivent présence + cadre.</td></tr>
+        <tr><td><strong>Coucher</strong></td><td>Routine stable, pas de dispute près d’eux, du’a de protection.</td><td>Fermer leur journée en sécurité.</td></tr>
+        <tr><td><strong>Moment pour toi</strong></td><td>10 minutes : douche, soin, dhikr, journal, respiration.</td><td>Te retrouver avant de dormir.</td></tr>
+      </tbody>
+    </table>
+  </div>  <div class="h2">Jour difficile</div>
+  <div class="card gold">
+    <ul>
+      <li>Minimum spirituel : prières obligatoires + une page ou quelques versets + adhkar essentiels.</li>
+      <li>Minimum maison : vaisselle visible + repas très simple + vêtements des enfants prêts.</li>
+      <li>Minimum émotionnel : ne pas répondre à chaud, écrire une phrase, respirer 10 fois.</li>
+      <li>Minimum couple : “Je suis trop chargée pour parler bien maintenant, je reviens quand je suis calme.”</li>
+      <li>Minimum enfants : un câlin, une phrase rassurante, pas de dispute devant eux.</li>
+    </ul>
+  </div>
+</section><section class="section" id="planning30">
+  <span class="eyebrow">Section 04</span>
+  <div class="h1">Planning de transformation — <em>30 jours</em></div>
+  <div class="bar"></div>  <div class="chapter"><div class="ch-num">1</div><div><div class="ch-title">Semaine 1 — Apaisement et observation</div><div class="ch-body">Objectif : ne plus réagir à chaud. Actions : prière à l’heure autant que possible, noter les déclencheurs, routine anti-crise 10 minutes. Phrase : “Je n’ai pas besoin de tout régler maintenant.” Avec lui : observer sans provoquer de grande discussion. Avec enfants : rassurer et stabiliser le coucher. Pour toi : journal émotionnel. À éviter : analyser chaque changement d’humeur comme une catastrophe.</div></div></div>
+  <div class="chapter"><div class="ch-num">2</div><div><div class="ch-title">Semaine 2 — Organisation du foyer et routines enfants</div><div class="ch-body">Objectif : rendre la maison plus lisible. Actions : planning repas simple, zone visible rangée, devoirs enfants à heure fixe. Phrase : “Une petite constance vaut mieux qu’un grand effort puis l’épuisement.” Avec lui : parler d’une seule organisation concrète. Avec enfants : tableau devoirs/Qur’an/rangement. Pour toi : soin de 15 minutes. À éviter : vouloir transformer toute la maison en trois jours.</div></div></div>
+  <div class="chapter"><div class="ch-num">3</div><div><div class="ch-title">Semaine 3 — Communication conjugale et limites</div><div class="ch-body">Objectif : parler sans accuser et poser des lignes rouges. Actions : phrases courtes, pauses obligatoires, accords écrits dans le carnet. Phrase : “Je peux être douce et ferme.” Avec lui : choisir un moment calme pour discuter de la charte. Avec enfants : ne jamais les utiliser dans la dispute. Pour toi : respirer avant chaque réponse. À éviter : parler quand l’un des deux est déjà en feu.</div></div></div>
+  <div class="chapter"><div class="ch-num">4</div><div><div class="ch-title">Semaine 4 — Consolidation spirituelle, émotionnelle et familiale</div><div class="ch-body">Objectif : installer un rythme stable. Actions : bilan dimanche, tableau dépenses, routine Qur’an, moment familial hebdomadaire. Phrase : “Je construis par petites briques.” Avec lui : remercier ce qui est bon + rediscuter calmement ce qui blesse. Avec enfants : une activité douce. Pour toi : choisir 3 habitudes à garder. À éviter : croire qu’un bon jour annule tout ce qui doit être travaillé.</div></div></div>
+</section><section class="section" id="planning60">
+  <span class="eyebrow">Section 05</span>
+  <div class="h1">Progression — <em>2 mois</em></div>
+  <div class="bar"></div>  <div class="g2">
+    <div class="card gold"><div class="h3">Mois 1 : Stabiliser</div><ul><li>Observer les cycles sans paniquer.</li><li>Installer la routine minimale.</li><li>Créer les règles de sécurité.</li><li>Noter dépenses et accords pour éviter les oublis.</li><li>Protéger les enfants des tensions.</li></ul></div>
+    <div class="card"><div class="h3">Mois 2 : Enraciner</div><ul><li>Renforcer la communication posée.</li><li>Créer une ambiance foyer plus chaleureuse.</li><li>Réduire les disputes répétitives grâce au carnet.</li><li>Garder un rendez-vous bilan chaque semaine.</li><li>Préparer une routine familiale durable.</li></ul></div>
+  </div>  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Semaine</th><th>Focus</th><th>Action principale</th><th>Indicateur</th></tr></thead>
+      <tbody>
+        <tr><td>5</td><td>Ambiance</td><td>Parfumer, ranger une zone, repas partagé sans téléphone 2 fois.</td><td>Maison plus calme 3 jours/7.</td></tr>
+        <tr><td>6</td><td>Conflits</td><td>Utiliser la pause 20 minutes dès que la voix monte.</td><td>Moins de disputes devant enfants.</td></tr>
+        <tr><td>7</td><td>Argent</td><td>Noter chaque retrait/dépense importante dans le carnet.</td><td>Moins de “j’ai oublié / tu as dit”.</td></tr>
+        <tr><td>8</td><td>Couple & famille</td><td>Un moment calme avec lui + un moment individuel avec chaque enfant.</td><td>Plus de sécurité affective.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section><section class="section" id="conflits">
+  <span class="eyebrow">Section 06</span>
+  <div class="h1">Scripts précis — <em>parler sans s’écraser</em></div>
+  <div class="bar"></div>  <div class="g2">
+    <div class="card"><div class="h3">Il devient froid d’un coup</div><p>“Je sens que l’ambiance a changé. Je ne vais pas te forcer à parler maintenant. Quand tu seras prêt, j’aimerais comprendre calmement.”</p></div>
+    <div class="card"><div class="h3">Il parle mal</div><p>“Je veux bien t’écouter, mais pas si tu me parles comme ça. Je reviens quand on peut se parler avec respect.”</p></div>
+    <div class="card"><div class="h3">Il s’énerve devant les enfants</div><p>“On arrête ici devant les enfants. On reprend après, quand ils ne sont pas là et quand on est calmes.”</p></div>
+    <div class="card danger-note"><div class="h3">Il tape légèrement l’enfant</div><p>“Non. Même une petite tape, je ne veux pas que ça devienne notre façon d’éduquer. On corrige autrement. Je suis prête à en reparler calmement, mais ça, je ne peux pas l’accepter.”</p></div>
+    <div class="card gold"><div class="h3">Tu sens que tu vas exploser</div><p>“Là je suis trop blessée pour parler correctement. Je prends une pause, je fais wudhu/je respire, et je reviens.”</p></div>
+    <div class="card gold"><div class="h3">Parler sans l’accuser</div><p>“Quand ça arrive, moi je ressens de l’insécurité. J’ai besoin qu’on trouve une manière plus calme de gérer ça.”</p></div>
+    <div class="card"><div class="h3">Poser une limite douce</div><p>“Je t’aime et je veux qu’on avance, mais cette manière de parler/agir nous abîme. Je ne veux plus qu’on laisse ça passer.”</p></div>
+    <div class="card"><div class="h3">Reconnaître tes torts</div><p>“Sur ce point, j’aurais pu mieux faire. Je m’excuse pour ma réaction. Mais j’aimerais aussi qu’on parle du fond du problème.”</p></div>
+  </div>  <div class="h2">Méthode émotionnelle en 5 étapes</div>
+  <div class="chapter"><div class="ch-num">1</div><div><div class="ch-title">Nommer</div><div class="ch-body">“Je suis blessée / anxieuse / en colère / fatiguée.” Nommer calme déjà une partie du feu intérieur.</div></div></div>
+  <div class="chapter"><div class="ch-num">2</div><div><div class="ch-title">Respirer</div><div class="ch-body">Inspire 4 secondes, expire 6 secondes, répète 10 fois. Pas de message, pas de débat pendant ce moment.</div></div></div>
+  <div class="chapter"><div class="ch-num">3</div><div><div class="ch-title">Retarder</div><div class="ch-body">Ne pas répondre tout de suite. Le silence volontaire n’est pas une punition, c’est une protection.</div></div></div>
+  <div class="chapter"><div class="ch-num">4</div><div><div class="ch-title">Déposer</div><div class="ch-body">Écrire trois lignes ou faire dhikr : hasbiya Allah, la hawla wa la quwwata illa billah, astaghfirullah.</div></div></div>
+  <div class="chapter"><div class="ch-num">5</div><div><div class="ch-title">Reparler</div><div class="ch-body">Seulement quand la voix, le cœur et le corps sont redescendus.</div></div></div>
+</section><section class="section" id="enfants">
+  <span class="eyebrow">Section 07</span>
+  <div class="h1">Enfants 8 ans & 6 ans — <em>cadre, douceur, sécurité</em></div>
+  <div class="bar"></div>  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Moment</th><th>Routine enfant</th><th>But</th></tr></thead>
+      <tbody>
+        <tr><td>Après école</td><td>Goûter, pause, puis devoirs courts.</td><td>Éviter la fatigue et les cris.</td></tr>
+        <tr><td>Avant Maghrib/soir</td><td>Petite sourate, révision Qur’an ou histoire prophétique courte.</td><td>Lier foi et douceur.</td></tr>
+        <tr><td>Avant repas</td><td>Ranger 5 minutes : jouets, cartable, table.</td><td>Responsabilité douce.</td></tr>
+        <tr><td>Coucher</td><td>Toilette, pyjama, du’a, phrase rassurante.</td><td>Sécurité affective.</td></tr>
+      </tbody>
+    </table>
+  </div>  <div class="card success-note">
+    <div class="h3">Quand il y a une tension conjugale</div>
+    <p>Ne leur demande pas de choisir un camp. Ne leur explique pas les détails. Dis seulement : “Papa et maman ont eu un moment difficile, mais vous êtes en sécurité, ce n’est pas votre faute, et les adultes vont gérer entre eux.”</p>
+  </div>
+</section><section class="section" id="bilan">
+  <span class="eyebrow">Section 08</span>
+  <div class="h1">Fiche bilan du dimanche — <em>sans culpabilité</em></div>
+  <div class="bar"></div>  <div class="card gold">
+    <div class="form-grid two">
+      <div><label>Ce qui s’est amélioré</label><textarea placeholder="Même petit..."></textarea></div>
+      <div><label>Ce qui m’a blessée</label><textarea placeholder="Sans dramatiser, sans nier..."></textarea></div>
+      <div><label>Ce que j’ai mal géré</label><textarea placeholder="Avec honnêteté, sans me détruire..."></textarea></div>
+      <div><label>Ce que mon mari a fait de bien</label><textarea placeholder="Même une chose simple..."></textarea></div>
+      <div><label>Ce que les enfants ont ressenti</label><textarea placeholder="Ce que j’ai observé..."></textarea></div>
+      <div><label>Intention de la semaine prochaine</label><textarea placeholder="Ya Allah, aide-moi à..."></textarea></div>
+    </div>
+  </div>
+</section><section class="section" id="carnet">
+  <span class="eyebrow">Section 09</span>
+  <div class="h1">Carnet du Foyer — <em>Registre de la Sultane</em></div>
+  <div class="bar"></div>
+  <p class="lead">Un carnet privé pour garder des traces douces : argent, dépenses, retraits, accords, moments difficiles, humeur, routines et enfants. Le but n’est pas de surveiller, mais d’apaiser, clarifier et éviter les malentendus.</p>  <div class="card gold">
+    <div class="form-grid three">
+      <div><label>Taux de change DZD pour 1 EUR</label><input type="number" id="rateInput" value="270" min="1" oninput="saveRate(); renderAll();"></div>
+      <div><label>Mois suivi</label><input type="month" id="monthFilter" oninput="renderAll();"></div>
+      <div><label>Note douce</label><input type="text" placeholder="Ex : On note pour garder la paix, pas pour accuser."></div>
+    </div>
+    <div class="actions">
+      <button onclick="exportJSON()">Exporter JSON</button>
+      <button class="secondary" onclick="exportCSV()">Exporter CSV</button>
+      <button class="danger" onclick="resetAll()">Réinitialiser</button>
+    </div>
+  </div>  <div class="summary-grid">
+    <div class="summary-card"><span>Dépenses du mois</span><strong id="sumDzd">0 DZD</strong></div>
+    <div class="summary-card"><span>Équivalent euros</span><strong id="sumEur">0 €</strong></div>
+    <div class="summary-card"><span>Retiré ce mois</span><strong id="sumWithdraw">0 €</strong></div>
+    <div class="summary-card"><span>Reste estimé</span><strong id="sumRemaining">0 DZD</strong></div>
+    <div class="summary-card"><span>Moments difficiles</span><strong id="sumConflict">0</strong></div>
+    <div class="summary-card"><span>Jours routine</span><strong id="sumRoutine">0</strong></div>
+    <div class="summary-card"><span>Dernier accord</span><strong id="sumAgreement">—</strong></div>
+    <div class="summary-card"><span>Entrées du mois</span><strong id="sumIncome">0 DZD</strong></div>
+  </div>  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('depenses',this)">Dépenses</button>
+    <button class="tab-btn" onclick="openTab('retraits',this)">Retraits</button>
+    <button class="tab-btn" onclick="openTab('entrees',this)">Entrées</button>
+    <button class="tab-btn" onclick="openTab('confie',this)">Argent confié</button>
+    <button class="tab-btn" onclick="openTab('budget',this)">Budget</button>
+    <button class="tab-btn" onclick="openTab('accords',this)">Accords</button>
+    <button class="tab-btn" onclick="openTab('moments',this)">Moments difficiles</button>
+    <button class="tab-btn" onclick="openTab('emotion',this)">Émotion</button>
+    <button class="tab-btn" onclick="openTab('routineTrack',this)">Routine</button>
+    <button class="tab-btn" onclick="openTab('kids',this)">Enfants</button>
+  </div>  <div class="subtab active" id="depenses">
+    <div class="h2">Dépenses du foyer</div>
+    <div class="form-grid">
+      <div><label>Date</label><input id="expDate" type="date"></div>
+      <div><label>Catégorie</label><select id="expCat"><option>courses</option><option>enfants</option><option>transport</option><option>maison</option><option>santé</option><option>restaurant</option><option>école</option><option>aide famille</option><option>autre</option></select></div>
+      <div><label>Montant DZD</label><input id="expAmount" type="number" min="0"></div>
+      <div><label>Qui a payé</label><select id="expPaidBy"><option>moi</option><option>mari</option><option>belle-sœur 1</option><option>belle-sœur 2</option><option>autre</option></select></div>
+      <div><label>Argent de qui</label><select id="expSource"><option>mon salaire</option><option>salaire mari</option><option>argent retiré en euros</option><option>argent des belles-sœurs</option><option>commun</option></select></div>
+      <div style="grid-column:span 2"><label>Note</label><input id="expNote" type="text" placeholder="Trace douce..."></div>
+    </div>
+    <button onclick="addItem('expenses')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Catégorie</th><th>DZD</th><th>EUR</th><th>Payé par</th><th>Source</th><th>Note</th><th></th></tr></thead><tbody id="expensesRows"></tbody></table></div>
+  </div>  <div class="subtab" id="retraits">
+    <div class="h2">Argent retiré</div>
+    <div class="form-grid">
+      <div><label>Date</label><input id="witDate" type="date"></div>
+      <div><label>Montant EUR</label><input id="witEur" type="number" min="0"></div>
+      <div><label>Qui a retiré</label><input id="witBy" type="text" placeholder="Moi, mari..."></div>
+      <div><label>Où l’argent est parti</label><select id="witUse"><option>courses</option><option>maison</option><option>enfants</option><option>mari</option><option>économies</option><option>autre</option></select></div>
+      <div><label>Reste disponible DZD</label><input id="witRemain" type="number" min="0"></div>
+    </div>
+    <button onclick="addItem('withdrawals')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>EUR</th><th>DZD calculé</th><th>Retiré par</th><th>Utilisation</th><th>Reste</th><th></th></tr></thead><tbody id="withdrawalsRows"></tbody></table></div>
+  </div>  <div class="subtab" id="entrees">
+    <div class="h2">Salaires et entrées d’argent</div>
+    <div class="form-grid">
+      <div><label>Date</label><input id="incDate" type="date"></div>
+      <div><label>Source</label><select id="incSource"><option>mon salaire</option><option>mari</option><option>belle-sœur 1</option><option>belle-sœur 2</option><option>client</option><option>autre</option></select></div>
+      <div><label>Montant</label><input id="incAmount" type="number" min="0"></div>
+      <div><label>Devise</label><select id="incCurrency"><option>DZD</option><option>EUR</option></select></div>
+      <div><label>Statut</label><select id="incStatus"><option>reçu</option><option>en attente</option><option>donné à quelqu’un</option><option>mis de côté</option></select></div>
+    </div>
+    <button onclick="addItem('income')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Source</th><th>Montant</th><th>Devise</th><th>Équiv. DZD</th><th>Statut</th><th></th></tr></thead><tbody id="incomeRows"></tbody></table></div>
+  </div>  <div class="subtab" id="confie">
+    <div class="h2">Argent confié / argent donné</div>
+    <div class="form-grid">
+      <div><label>Date</label><input id="givDate" type="date"></div>
+      <div><label>Qui donne ?</label><input id="givFrom" type="text"></div>
+      <div><label>Qui reçoit ?</label><input id="givTo" type="text"></div>
+      <div><label>Montant</label><input id="givAmount" type="number" min="0"></div>
+      <div><label>Devise</label><select id="givCurrency"><option>DZD</option><option>EUR</option></select></div>
+      <div><label>Motif</label><input id="givReason" type="text"></div>
+      <div><label>À rendre ?</label><select id="givReturn"><option>non</option><option>oui</option></select></div>
+      <div><label>Date retour prévue</label><input id="givDue" type="date"></div>
+      <div><label>Statut</label><select id="givStatus"><option>en cours</option><option>rendu</option><option>offert</option><option>oublié à clarifier</option></select></div>
+    </div>
+    <button onclick="addItem('given')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Donne</th><th>Reçoit</th><th>Montant</th><th>Motif</th><th>À rendre</th><th>Retour</th><th>Statut</th><th></th></tr></thead><tbody id="givenRows"></tbody></table></div>
+  </div>  <div class="subtab" id="budget">
+    <div class="h2">Budget mensuel</div>
+    <p class="small">Remplis le prévu et le réel. Le carnet calcule la différence et signale doucement les dépassements.</p>
+    <div class="table-wrap"><table><thead><tr><th>Catégorie</th><th>Prévu DZD</th><th>Réel DZD</th><th>Différence</th><th>Alerte douce</th></tr></thead><tbody id="budgetRows"></tbody></table></div>
+    <button onclick="saveBudget()">Enregistrer le budget</button>
+  </div>  <div class="subtab" id="accords">
+    <div class="h2">Carnet des accords de couple</div>
+    <div class="form-grid two">
+      <div><label>Date</label><input id="agrDate" type="date"></div>
+      <div><label>Sujet</label><input id="agrSubject" type="text"></div>
+      <div><label>Ce qu’on a décidé</label><textarea id="agrDecision"></textarea></div>
+      <div><label>Qui fait quoi</label><textarea id="agrWho"></textarea></div>
+      <div><label>Avant quelle date</label><input id="agrDue" type="date"></div>
+      <div><label>Statut</label><select id="agrStatus"><option>à faire</option><option>fait</option><option>à rediscuter</option></select></div>
+      <div style="grid-column:1/-1"><label>Note douce</label><input id="agrNote" type="text" placeholder="Ex : On écrit pour protéger la paix."></div>
+    </div>
+    <button onclick="addItem('agreements')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Sujet</th><th>Décision</th><th>Qui fait quoi</th><th>Date</th><th>Statut</th><th>Note</th><th></th></tr></thead><tbody id="agreementsRows"></tbody></table></div>
+  </div>  <div class="subtab" id="moments">
+    <div class="h2">Carnet des moments difficiles</div>
+    <div class="form-grid two">
+      <div><label>Date</label><input id="momDate" type="date"></div>
+      <div><label>Déclencheur</label><input id="momTrigger" type="text"></div>
+      <div><label>Ce que j’ai ressenti</label><textarea id="momMyFeeling"></textarea></div>
+      <div><label>Ce qu’il a peut-être ressenti</label><textarea id="momHisFeeling"></textarea></div>
+      <div><label>Ma réaction</label><textarea id="momMyReaction"></textarea></div>
+      <div><label>Sa réaction</label><textarea id="momHisReaction"></textarea></div>
+      <div><label>Enfants présents ?</label><select id="momKids"><option>non</option><option>oui</option></select></div>
+      <div><label>Résolution</label><input id="momResolution" type="text"></div>
+      <div><label>À améliorer chez moi</label><textarea id="momImprove"></textarea></div>
+      <div><label>À rediscuter calmement</label><textarea id="momDiscuss"></textarea></div>
+    </div>
+    <button onclick="addItem('moments')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Déclencheur</th><th>Ressenti</th><th>Enfants</th><th>Résolution</th><th>À rediscuter</th><th></th></tr></thead><tbody id="momentsRows"></tbody></table></div>
+  </div>  <div class="subtab" id="emotion">
+    <div class="h2">Carnet émotionnel personnel</div>
+    <div class="form-grid two">
+      <div><label>Date</label><input id="emoDate" type="date"></div>
+      <div><label>Mon humeur</label><select id="emoMood"><option>calme</option><option>triste</option><option>anxieuse</option><option>blessée</option><option>en colère</option><option>fatiguée</option><option>apaisée</option></select></div>
+      <div><label>Cause possible</label><input id="emoCause" type="text"></div>
+      <div><label>Besoin du jour</label><select id="emoNeed"><option>repos</option><option>parole</option><option>affection</option><option>solitude</option><option>aide</option><option>sécurité</option><option>clarté</option></select></div>
+      <div><label>Action douce</label><input id="emoAction" type="text"></div>
+      <div><label>Du’a ou dhikr</label><input id="emoDhikr" type="text"></div>
+    </div>
+    <button onclick="addItem('emotions')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Humeur</th><th>Cause</th><th>Besoin</th><th>Action</th><th>Dhikr</th><th></th></tr></thead><tbody id="emotionsRows"></tbody></table></div>
+  </div>  <div class="subtab" id="routineTrack">
+    <div class="h2">Routine quotidienne</div>
+    <div><label>Date</label><input id="rouDate" type="date"></div>
+    <div class="checklist" id="routineChecks"></div>
+    <button onclick="addRoutine()">Enregistrer la routine</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Éléments complétés</th><th>Total</th><th></th></tr></thead><tbody id="routinesRows"></tbody></table></div>
+  </div>  <div class="subtab" id="kids">
+    <div class="h2">Suivi enfants</div>
+    <div class="form-grid two">
+      <div><label>Date</label><input id="kidDate" type="date"></div>
+      <div><label>Enfant</label><select id="kidName"><option>Enfant 8 ans</option><option>Enfant 6 ans</option></select></div>
+      <div><label>Devoirs</label><input id="kidHomework" type="text"></div>
+      <div><label>Qur’an / sourate</label><input id="kidQuran" type="text"></div>
+      <div><label>Comportement</label><input id="kidBehavior" type="text"></div>
+      <div><label>Émotion dominante</label><input id="kidMood" type="text"></div>
+      <div><label>Moment de qualité</label><input id="kidTime" type="text"></div>
+      <div><label>Besoin repéré</label><input id="kidNeed" type="text"></div>
+      <div style="grid-column:1/-1"><label>Note</label><input id="kidNote" type="text"></div>
+    </div>
+    <button onclick="addItem('kids')">Ajouter</button>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Enfant</th><th>Devoirs</th><th>Qur’an</th><th>Émotion</th><th>Besoin</th><th>Note</th><th></th></tr></thead><tbody id="kidsRows"></tbody></table></div>
+  </div>
+</section></div><script>
+  function show(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    return false;
+  }
+
+  const today = new Date().toISOString().slice(0,10);
+  const monthNow = new Date().toISOString().slice(0,7);
+  const storeKey = 'sultaneFoyerCarnetV1';
+  const defaultBudgetCats = ['Loyer','Courses','Électricité/gaz/eau','Internet/téléphone','École/enfants','Santé','Transport','Sorties/restaurant','Aide familiale','Épargne','Imprévus','Dépenses personnelles moi','Dépenses personnelles mari'];
+  const routineItems = ['Fajr','Prières à l’heure','Qur’an','Adhkar matin','Adhkar soir','15 min rangement','Repas préparé ou organisé','Moment enfants','Moment calme avec mari','Soin de moi','Coucher enfants','Aucune dispute devant enfants'];
+
+  function initialData(){return {rate:270,expenses:[],withdrawals:[],income:[],given:[],budget:defaultBudgetCats.map(c=>({cat:c,planned:0,real:0})),agreements:[],moments:[],emotions:[],routines:[],kids:[]};}
+  function load(){return JSON.parse(localStorage.getItem(storeKey) || JSON.stringify(initialData()));}
+  function save(data){localStorage.setItem(storeKey, JSON.stringify(data));}
+  function rate(){return Number(document.getElementById('rateInput').value || 270);}
+  function inMonth(date){const mf=document.getElementById('monthFilter').value || monthNow; return (date||'').startsWith(mf);}
+  function dzdToEur(v){return (Number(v||0)/rate()).toFixed(2);}
+  function eurToDzd(v){return Math.round(Number(v||0)*rate());}
+  function fmtDzd(v){return Math.round(Number(v||0)).toLocaleString('fr-FR')+' DZD';}
+  function fmtEur(v){return Number(v||0).toLocaleString('fr-FR',{maximumFractionDigits:2})+' €';}
+  function esc(s){return String(s||'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[m]));}
+
+  function setDefaults(){
+    document.querySelectorAll('input[type="date"]').forEach(i=>{if(!i.value)i.value=today;});
+    document.getElementById('monthFilter').value = monthNow;
+    const data=load(); document.getElementById('rateInput').value = data.rate || 270;
+    renderRoutineChecks(); renderAll();
+  }
+  function saveRate(){const data=load();data.rate=rate();save(data);}
+  function openTab(id,btn){document.querySelectorAll('.subtab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+
+  function addItem(type){
+    const data=load();
+    const maps={
+      expenses:{date:'expDate',cat:'expCat',amount:'expAmount',paidBy:'expPaidBy',source:'expSource',note:'expNote'},
+      withdrawals:{date:'witDate',eur:'witEur',by:'witBy',use:'witUse',remain:'witRemain'},
+      income:{date:'incDate',source:'incSource',amount:'incAmount',currency:'incCurrency',status:'incStatus'},
+      given:{date:'givDate',from:'givFrom',to:'givTo',amount:'givAmount',currency:'givCurrency',reason:'givReason',returnable:'givReturn',due:'givDue',status:'givStatus'},
+      agreements:{date:'agrDate',subject:'agrSubject',decision:'agrDecision',who:'agrWho',due:'agrDue',status:'agrStatus',note:'agrNote'},
+      moments:{date:'momDate',trigger:'momTrigger',myFeeling:'momMyFeeling',hisFeeling:'momHisFeeling',myReaction:'momMyReaction',hisReaction:'momHisReaction',kidsPresent:'momKids',resolution:'momResolution',improve:'momImprove',discuss:'momDiscuss'},
+      emotions:{date:'emoDate',mood:'emoMood',cause:'emoCause',need:'emoNeed',action:'emoAction',dhikr:'emoDhikr'},
+      kids:{date:'kidDate',name:'kidName',homework:'kidHomework',quran:'kidQuran',behavior:'kidBehavior',mood:'kidMood',time:'kidTime',need:'kidNeed',note:'kidNote'}
+    };
+    const obj={id:Date.now()}; Object.entries(maps[type]).forEach(([k,id])=>obj[k]=document.getElementById(id).value);
+    if((obj.amount!==undefined && obj.amount==='') || (obj.eur!==undefined && obj.eur==='')){alert('Ajoute au moins un montant.'); return;}
+    data[type].push(obj); save(data); renderAll();
+  }
+
+  function del(type,id){const data=load();data[type]=data[type].filter(x=>x.id!==id);save(data);renderAll();}
+
+  function renderAll(){
+    const data=load(); data.rate=rate(); save(data);
+    renderExpenses(data);renderWithdrawals(data);renderIncome(data);renderGiven(data);renderBudget(data);renderAgreements(data);renderMoments(data);renderEmotions(data);renderRoutines(data);renderKids(data);renderSummary(data);
+  }
+
+  function renderExpenses(data){document.getElementById('expensesRows').innerHTML=data.expenses.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.cat)}</td><td>${fmtDzd(x.amount)}</td><td>${fmtEur(dzdToEur(x.amount))}</td><td>${esc(x.paidBy)}</td><td>${esc(x.source)}</td><td>${esc(x.note)}</td><td><button class="mini-btn danger" onclick="del('expenses',${x.id})">Suppr.</button></td></tr>`).join('');}
+  function renderWithdrawals(data){document.getElementById('withdrawalsRows').innerHTML=data.withdrawals.map(x=>`<tr><td>${esc(x.date)}</td><td>${fmtEur(x.eur)}</td><td>${fmtDzd(eurToDzd(x.eur))}</td><td>${esc(x.by)}</td><td>${esc(x.use)}</td><td>${fmtDzd(x.remain)}</td><td><button class="mini-btn danger" onclick="del('withdrawals',${x.id})">Suppr.</button></td></tr>`).join('');}
+  function renderIncome(data){document.getElementById('incomeRows').innerHTML=data.income.map(x=>{const dzd=x.currency==='EUR'?eurToDzd(x.amount):Number(x.amount||0);return `<tr><td>${esc(x.date)}</td><td>${esc(x.source)}</td><td>${esc(x.amount)}</td><td>${esc(x.currency)}</td><td>${fmtDzd(dzd)}</td><td>${esc(x.status)}</td><td><button class="mini-btn danger" onclick="del('income',${x.id})">Suppr.</button></td></tr>`}).join('');}
+  function renderGiven(data){document.getElementById('givenRows').innerHTML=data.given.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.from)}</td><td>${esc(x.to)}</td><td>${esc(x.amount)} ${esc(x.currency)}</td><td>${esc(x.reason)}</td><td>${esc(x.returnable)}</td><td>${esc(x.due)}</td><td>${esc(x.status)}</td><td><button class="mini-btn danger" onclick="del('given',${x.id})">Suppr.</button></td></tr>`).join('');}
+  function renderBudget(data){document.getElementById('budgetRows').innerHTML=data.budget.map((x,i)=>{const diff=Number(x.planned||0)-Number(x.real||0);const alert=diff<0?'Dépassement à clarifier':'Dans le cadre prévu';return `<tr><td>${esc(x.cat)}</td><td><input type="number" min="0" value="${x.planned}" data-b="planned" data-i="${i}"></td><td><input type="number" min="0" value="${x.real}" data-b="real" data-i="${i}"></td><td>${fmtDzd(diff)}</td><td><span class="pill">${alert}</span></td></tr>`}).join('');}
+  function saveBudget(){const data=load();document.querySelectorAll('[data-b]').forEach(inp=>{data.budget[Number(inp.dataset.i)][inp.dataset.b]=Number(inp.value||0);});save(data);renderAll();}
+  function renderAgreements(data){document.getElementById('agreementsRows').innerHTML=data.agreements.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.subject)}</td><td>${esc(x.decision)}</td><td>${esc(x.who)}</td><td>${esc(x.due)}</td><td>${esc(x.status)}</td><td>${esc(x.note)}</td><td><button class="mini-btn danger" onclick="del('agreements',${x.id})">Suppr.</button></td></tr>`).join('');}
+  function renderMoments(data){document.getElementById('momentsRows').innerHTML=data.moments.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.trigger)}</td><td>${esc(x.myFeeling)}</td><td>${esc(x.kidsPresent)}</td><td>${esc(x.resolution)}</td><td>${esc(x.discuss)}</td><td><button class="mini-btn danger" onclick="del('moments',${x.id})">Suppr.</button></td></tr>`).join('');}
+  function renderEmotions(data){document.getElementById('emotionsRows').innerHTML=data.emotions.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.mood)}</td><td>${esc(x.cause)}</td><td>${esc(x.need)}</td><td>${esc(x.action)}</td><td>${esc(x.dhikr)}</td><td><button class="mini-btn danger" onclick="del('emotions',${x.id})">Suppr.</button></td></tr>`).join('');}
+  function renderKids(data){document.getElementById('kidsRows').innerHTML=data.kids.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.homework)}</td><td>${esc(x.quran)}</td><td>${esc(x.mood)}</td><td>${esc(x.need)}</td><td>${esc(x.note)}</td><td><button class="mini-btn danger" onclick="del('kids',${x.id})">Suppr.</button></td></tr>`).join('');}
+
+  function renderRoutineChecks(){document.getElementById('routineChecks').innerHTML=routineItems.map((x,i)=>`<label class="check-item"><input type="checkbox" id="rou${i}"> ${x}</label>`).join('');}
+  function addRoutine(){const data=load();const checked=routineItems.filter((_,i)=>document.getElementById('rou'+i).checked);data.routines.push({id:Date.now(),date:document.getElementById('rouDate').value,checked});save(data);renderAll();}
+  function renderRoutines(data){document.getElementById('routinesRows').innerHTML=data.routines.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.checked.join(', '))}</td><td>${x.checked.length}/${routineItems.length}</td><td><button class="mini-btn danger" onclick="del('routines',${x.id})">Suppr.</button></td></tr>`).join('');}
+
+  function renderSummary(data){
+    const exp=data.expenses.filter(x=>inMonth(x.date)).reduce((s,x)=>s+Number(x.amount||0),0);
+    const inc=data.income.filter(x=>inMonth(x.date)).reduce((s,x)=>s+(x.currency==='EUR'?eurToDzd(x.amount):Number(x.amount||0)),0);
+    const wit=data.withdrawals.filter(x=>inMonth(x.date)).reduce((s,x)=>s+Number(x.eur||0),0);
+    const remain=data.withdrawals.filter(x=>inMonth(x.date)).reduce((s,x)=>s+Number(x.remain||0),0);
+    const mom=data.moments.filter(x=>inMonth(x.date)).length;
+    const rou=data.routines.filter(x=>inMonth(x.date) && x.checked.length>=6).length;
+    const lastAgr=data.agreements.length?data.agreements[data.agreements.length-1].subject:'—';
+    document.getElementById('sumDzd').textContent=fmtDzd(exp);
+    document.getElementById('sumEur').textContent=fmtEur(dzdToEur(exp));
+    document.getElementById('sumWithdraw').textContent=fmtEur(wit);
+    document.getElementById('sumRemaining').textContent=fmtDzd(remain);
+    document.getElementById('sumConflict').textContent=mom;
+    document.getElementById('sumRoutine').textContent=rou;
+    document.getElementById('sumAgreement').textContent=lastAgr;
+    document.getElementById('sumIncome').textContent=fmtDzd(inc);
+  }
+
+  function exportJSON(){const blob=new Blob([JSON.stringify(load(),null,2)],{type:'application/json'});download(blob,'carnet-sultane-foyer.json');}
+  function exportCSV(){
+    const data=load(); let lines=['type,date,champ1,champ2,montant,devise,note'];
+    data.expenses.forEach(x=>lines.push(`depense,${x.date},${x.cat},${x.paidBy},${x.amount},DZD,"${(x.note||'').replaceAll('"','""')}"`));
+    data.withdrawals.forEach(x=>lines.push(`retrait,${x.date},${x.by},${x.use},${x.eur},EUR,"reste ${x.remain||0} DZD"`));
+    data.income.forEach(x=>lines.push(`entree,${x.date},${x.source},${x.status},${x.amount},${x.currency},`));
+    data.given.forEach(x=>lines.push(`argent_confie,${x.date},${x.from},${x.to},${x.amount},${x.currency},"${(x.reason||'').replaceAll('"','""')}"`));
+    const blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'});download(blob,'carnet-sultane-foyer.csv');
+  }
+  function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href);}
+  function resetAll(){if(confirm('Confirmer la réinitialisation complète du carnet ?')){localStorage.removeItem(storeKey);location.reload();}}
+
+  setDefaults();
+</script></body>
+</html>
